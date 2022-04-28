@@ -6,16 +6,17 @@
       		你的浏览器版本太低，不支持audio标签
 	</audio> -->
   <n-config-provider :theme="darkTheme">
+    <n-message-provider>
   <router-view/>
+    </n-message-provider>
   </n-config-provider>
   </div>
 </template>
 
 <script>
-  import { defineComponent } from 'vue'
   import { darkTheme } from 'naive-ui'
 
-  export default defineComponent({
+  export default ({
     setup() {
       return {
         darkTheme

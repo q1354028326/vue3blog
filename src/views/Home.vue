@@ -1,5 +1,14 @@
 <template>
   <div>
+      <div class="jiazaizhezhao" v-if="show">
+      <div style="text-align:center">
+        <div style="margin-top:23%">
+ <n-spin size="large" />
+<div style="margin-top:10px">请耐心等待下下哦~😊</div>
+        </div>
+
+      </div>
+    </div>
     <div class="bgimg" style="text-align: center">
       <div style="height: 130px"></div>
       <div>
@@ -16,7 +25,8 @@
             text-shadow: 4px 4px rgba(0, 0, 0, 0.5);
           "
         >
-          烈焰大火龙的博客
+          <!-- 烈焰大火龙的博客 -->
+         LYDHL'S BLOG
         </div>
         <div
           style="
@@ -120,6 +130,7 @@
         </div>
       </div>
     </div>
+ 
     <div style="margin: 10px">
       <n-grid cols="24" item-responsive :x-gap="12">
         <n-grid-item span="0 550:0 900:1 1350:1">
@@ -137,15 +148,15 @@
               <div style="border:1px #2d2d30 solid;border-radius: 3px;overflow: hidden">
                 <div style="overflow: hidden;color: #777780;padding:10px 20px;font-size:13px;border-bottom:1px #2d2d30 solid">
                   <div style="float:left;">📖文章数量</div>
-                  <div style="float:right">{{artcount}}篇</div>
+                  <div style="float:right"><n-number-animation ref="numberAnimationInstRef" :from="0" :to="artcount" />篇</div>
                 </div>
                  <div style="overflow: hidden;color: #777780;padding:10px 20px;font-size:13px;border-bottom:1px #2d2d30 solid">
                   <div style="float:left;">📮评论数量</div>
-                  <div style="float:right">245条</div>
+                  <div style="float:right"><n-number-animation ref="numberAnimationInstRef" :from="0" :to="245" />条</div>
                 </div>
                  <div style="overflow: hidden;color: #777780;padding:10px 20px;font-size:13px;border-bottom:1px #2d2d30 solid">
-                  <div style="float:left;">🏷标签数量</div>
-                  <div style="float:right">17个</div>
+                  <div style="float:left;">🪑访客数量</div>
+                  <div style="float:right"><n-number-animation ref="numberAnimationInstRef" :from="0" :to="12212" />个</div>
                 </div>
                  <div style="overflow: hidden;color: #777780;padding:10px 20px;font-size:13px;border-bottom:1px #2d2d30 solid">
                   <div style="float:left;">📅建站日期</div>
@@ -153,11 +164,11 @@
                 </div>
                  <div style="overflow: hidden;color: #777780;padding:10px 20px;font-size:13px;border-bottom:1px #2d2d30 solid">
                   <div style="float:left;">🕚持续运行</div>
-                  <div style="float:right">3天 5小时 3分钟 12秒</div>
+                  <div style="float:right">{{createdatecha}}</div>
                 </div>
                  <div style="overflow: hidden;color: #777780;padding:10px 20px;font-size:13px;">
                   <div style="float:left;">🚧最后更新</div>
-                  <div style="float:right">2022-03-29 15:51</div>
+                  <div style="float:right">2022-04-13 10:48</div>
                 </div>
               </div>
             </div>
@@ -165,13 +176,10 @@
         </n-grid-item>
         <n-grid-item span="24 550:24 900:16 1350:14">
           <div class="green" >
-              <n-spin :show="show">
-                 <template #description>
-       请再耐心等待下下哦~😊
-      </template>
+           
             <div class="centerart"  v-for="(item,index) in artlistdata" :key="index">
               <div style="color: #9b9baa; font-size: 22px; overflow: hidden">
-                <div style="float: left;" class="hoverclass" @click="lookart(item._Identify)">{{item.artName}}</div>
+                <div style="float: left;" class="hoverclass" @click="lookart(item.artId)">{{item.artName}}</div>
                 <div style="float: left; margin-top: -3px; margin-left: 7px">
                   <n-tag v-if="item.artisyuanchuang==1" type="error" style="margin-top: -30px"> 原创 </n-tag>
                   <n-tag v-if="item.artistop==1"  type="warning" style="margin-top: -30px;margin-left:5px"> 置顶 </n-tag>
@@ -266,14 +274,13 @@
                   <div style="float: left">JavaScript、css、实用技巧</div>
                 </div>
                 <n-divider />
-                <div class="hoverclass-an" @click="lookart(item._Identify)">
+                <div class="hoverclass-an" @click="lookart(item.artId)">
                   <n-ellipsis line-clamp="3" :tooltip="false">
                  {{item.arttext}}
                   </n-ellipsis>
                 </div>
               </div>
             </div>
-              </n-spin>
             <div style="float:right;margin-bottom:10px ">
               <n-pagination
                 v-model:page="page"
@@ -281,7 +288,7 @@
                 :page-count="pagebtnnum"
                 show-size-picker
                 :page-sizes="pageSizes"
-                @change="pagechenge"
+                :on-update:page="pagechenge"
                 :on-update:page-size="pagechenge1"
               />
             </div>
@@ -333,31 +340,37 @@
               <div style="margin-top: 4px">
                 
                 <div style="overflow: hidden; color: #777780; font-size: 16px;margin-bottom:7px" >
-                  <div style="float: left" class="hoverclass-an">前端学习</div>
+                  <div style="float: left" class="hoverclass-an">随笔</div>
                   <div style="margin-top: -2px; float: right">
                     <n-tag round size="small" :color="{ color: '#8e8e9c', textColor: '#1d1d1f' }">2</n-tag>
                   </div>
                 </div>
                 <div style="overflow: hidden; color: #777780; font-size: 16px;margin-bottom:7px">
-                  <div style="float: left" class="hoverclass-an">实用技巧</div>
+                  <div style="float: left" class="hoverclass-an">前端学习</div>
                   <div style="margin-top: -2px; float: right">
                     <n-tag round size="small" :color="{ color: '#8e8e9c', textColor: '#1d1d1f' }">13</n-tag>
                   </div>
                 </div>
                 <div style="overflow: hidden; color: #777780; font-size: 16px;margin-bottom:7px">
-                  <div style="float: left" class="hoverclass-an">随笔</div>
+                  <div style="float: left" class="hoverclass-an">后端技术</div>
                   <div style="margin-top: -2px; float: right">
                     <n-tag round size="small" :color="{ color: '#8e8e9c', textColor: '#1d1d1f' }">4</n-tag>
                   </div>
                 </div>
                 <div style="overflow: hidden; color: #777780; font-size: 16px;margin-bottom:7px">
-                  <div style="float: left" class="hoverclass-an">前端</div>
+                  <div style="float: left" class="hoverclass-an">实用技巧</div>
                   <div style="margin-top: -2px; float: right">
                     <n-tag round size="small" :color="{ color: '#8e8e9c', textColor: '#1d1d1f' }">23</n-tag>
                   </div>
                 </div>
                 <div style="overflow: hidden; color: #777780; font-size: 16px;margin-bottom:5px">
-                  <div style="float: left" class="hoverclass-an">爬虫</div>
+                  <div style="float: left" class="hoverclass-an">突发灵感</div>
+                  <div style="margin-top: -2px; float: right">
+                    <n-tag round size="small" :color="{ color: '#8e8e9c', textColor: '#1d1d1f' }">7</n-tag>
+                  </div>
+                </div>
+                <div style="overflow: hidden; color: #777780; font-size: 16px;margin-bottom:5px">
+                  <div style="float: left" class="hoverclass-an">Pyhton爬虫</div>
                   <div style="margin-top: -2px; float: right">
                     <n-tag round size="small" :color="{ color: '#8e8e9c', textColor: '#1d1d1f' }">7</n-tag>
                   </div>
@@ -405,10 +418,11 @@
                 <n-space>
                   <n-tag type="success" style="cursor: pointer"> JavaScript </n-tag>
                   <n-tag type="warning" style="cursor: pointer"> css </n-tag>
-                  <n-tag type="warning" style="cursor: pointer"> css </n-tag>
+                  <n-tag type="warning" style="cursor: pointer"> .NET </n-tag>
                   <n-tag type="info" style="cursor: pointer"> React </n-tag>
                   <n-tag type="error" style="cursor: pointer"> 实用技巧 </n-tag>
                   <n-tag type="success" style="cursor: pointer"> 设计模式 </n-tag>
+                  <n-tag type="warning" style="cursor: pointer"> GO </n-tag>
                   <n-tag type="error" style="cursor: pointer"> 鸡汤 </n-tag>
                   <n-tag type="warning" style="cursor: pointer"> Git搬运 </n-tag>
                   <n-tag type="info" style="cursor: pointer"> 恋爱 </n-tag>
@@ -427,10 +441,17 @@
         </n-grid-item>
       </n-grid>
     </div>
-    <div class="footer">Theme by 烈焰大火龙 | Copyright © 2022 </div>
   </div>
 </template>
 <style>
+.jiazaizhezhao{
+  position:fixed;
+  top:0px;
+  height: 100%;
+  z-index: 1000000;
+  width: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
 .green {
   height: 800px;
 }
@@ -488,7 +509,8 @@
 .bgimg {
   height: 550px;
   width: 100%;
-  background-image: url(https://s3.bmp.ovh/imgs/2022/03/69ac8c1dc49b86c9.png);
+  /* background-image: url(https://pic.dogimg.com/2022/04/12/6254d5fff1db8.png); */
+  background-image: url(https://pic.dogimg.com/2022/04/12/6254d541034ba.png);
 }
 
 .footer{
@@ -514,26 +536,15 @@
 }
 </style>
 <script>
-import { defineComponent } from "vue";
 
-import {
-  Home,
-  Book,
-  LogoVue,
-  LogoBuffer,
-  LogoPython,
-  AlertCircleSharp,
-  Apps,
-  Bug,
-  ChatboxEllipsesSharp,
-} from "@vicons/ionicons5";
 import MdEditor from 'md-editor-v3';
 import axios from "axios";
 import 'md-editor-v3/lib/style.css';
-export default defineComponent({
+export default ({
    components: { MdEditor },
   data() {
     return {
+      createdatecha:'18天11小时3分钟59秒',
       page: 1,
       show:true,
       pageSize: 5,
@@ -572,28 +583,61 @@ export default defineComponent({
 });
       },
     pagechenge1(e){
-      console.log(e);
       this.pageSize =e
       this.page = 1
       this.getartlist()
     },
-    pagechenge(){
+    pagechenge(e){
+      this.page = e
+
       this.getartlist()
+    },
+    shijiancha (beginTime, endTime) {
+      var dateBegin = new Date(beginTime);
+      var dateEnd = new Date(endTime);
+      var dateDiff = dateEnd.getTime() - dateBegin.getTime(); //时间差的毫秒数
+      var dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000)); //计算出相差天数
+      var leave1 = dateDiff % (24 * 3600 * 1000); //计算天数后剩余的毫秒数
+      var hours = Math.floor(leave1 / (3600 * 1000)); //计算出小时数
+      //计算相差分钟数
+      var leave2 = leave1 % (3600 * 1000); //计算小时数后剩余的毫秒数
+      var minutes = Math.floor(leave2 / (60 * 1000)); //计算相差分钟数
+      //计算相差秒数
+      var leave3 = leave2 % (60 * 1000); //计算分钟数后剩余的毫秒数
+      var seconds = Math.round(leave3 / 1000);
+      this.seconds = seconds;
+      this.minutes = minutes;
+      return dayDiff +
+          "天" +
+          hours +
+          "小时" +
+          minutes +
+          "分钟" +
+          seconds +
+          "秒"
     },
     getartlist(){
       this.show = true
        axios
-          .post("/api/artlist/findbypage", {page:this.page-1,rowsPerPage:this.pageSize})
+          .get("/api/OptArtlists/GetOptArtlistsbypage?page="+this.page+"&rows="+this.pageSize)
           .then((res) => {
-            this.artcount = res.data.data.count
-            this.artlistdata = res.data.data.rows
+            this.artcount = res.data.rowscount
+            this.artlistdata = res.data.datalist
             this.pagebtnnum = Math.floor(this.artcount /this.pageSize)
       this.show = false
           });
-    }
+    },
+     setTimer() {
+　　　　this.timer = setInterval( () => {
+    var lsdate = this.shijiancha('2022-3-26',new Date())
+      this.createdatecha =lsdate
+　　　　　　}, 1000);
+　　},
   },
   mounted() {
     this.getartlist();
+    this.setTimer()
+   
   },
 });
 </script>

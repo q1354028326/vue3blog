@@ -1,23 +1,52 @@
 <template>
   <div>
-      <div style="margin: 10px">
+    <div class="jiazaizhezhao" v-show="show">
+      <div style="text-align: center">
+        <div style="margin-top: 23%">
+          <n-spin size="large" />
+          <div style="margin-top: 10px">请耐心等待下下哦~😊</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin: 10px">
       <n-grid cols="12" item-responsive :x-gap="12">
-        <n-grid-item span="12 550:0 1100:0 1350:2">
-          <div class="green">
-          </div>
+        <n-grid-item span="0 550:0 1100:0 1350:2">
+          <div class="green"></div>
         </n-grid-item>
         <n-grid-item span="12 550:12 1100:9 1350:8">
           <div class="green">
-                  <n-spin :show="show">
-                 <template #description>
-       请再耐心等待下下哦~😊
-      </template>
-            <div class="centerart" >
+            <n-breadcrumb>
+              <n-breadcrumb-item href="#">
+                <n-icon><md-cash /></n-icon> 首页
+              </n-breadcrumb-item>
+              <n-breadcrumb-item href="#">
+                <n-icon><md-cash /></n-icon> 文章
+              </n-breadcrumb-item>
+              <n-breadcrumb-item href="#">
+                <n-icon><md-cash /></n-icon> {{ artdata.artName }}
+              </n-breadcrumb-item>
+            </n-breadcrumb>
+            <div class="centerart">
               <div style="color: #9b9baa; font-size: 22px; overflow: hidden">
-                <div style="float: left;" class="hoverclass">{{artdata.artName}}</div>
+                <div style="float: left" class="hoverclass">
+                  {{ artdata.artName }}
+                </div>
                 <div style="float: left; margin-top: -3px; margin-left: 7px">
-                  <n-tag v-if="artdata.artisyuanchuang==1" type="error" style="margin-top: -30px"> 原创 </n-tag>
-                  <n-tag v-if="artdata.artistop==1" type="warning" style="margin-top: -30px;margin-left:5px"> 置顶 </n-tag>
+                  <n-tag
+                    v-if="artdata.artisyuanchuang == 1"
+                    type="error"
+                    style="margin-top: -30px"
+                  >
+                    原创
+                  </n-tag>
+                  <n-tag
+                    v-if="artdata.artistop == 1"
+                    type="warning"
+                    style="margin-top: -30px; margin-left: 5px"
+                  >
+                    置顶
+                  </n-tag>
                 </div>
               </div>
               <div
@@ -28,8 +57,11 @@
                   margin-top: 3px;
                 "
               >
-                <div style="float: left; overflow: hidden" class="hoverclass-an">
-                  <div  style="float: left; margin-top: 2px; margin-right: 3px">
+                <div
+                  style="float: left; overflow: hidden"
+                  class="hoverclass-an"
+                >
+                  <div style="float: left; margin-top: 2px; margin-right: 3px">
                     <n-icon size="14"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -46,9 +78,12 @@
                         ></path></svg
                     ></n-icon>
                   </div>
-                  <div style="float: left">{{artdata.artAuthor}}</div>
+                  <div style="float: left">{{ artdata.artAuthor }}</div>
                 </div>
-                <div style="float: left; overflow: hidden; margin-left: 12px" class="hoverclass-an">
+                <div
+                  style="float: left; overflow: hidden; margin-left: 12px"
+                  class="hoverclass-an"
+                >
                   <div style="float: left; margin-top: 2px; margin-right: 3px">
                     <n-icon size="14"
                       ><svg
@@ -66,9 +101,12 @@
                         ></path></svg
                     ></n-icon>
                   </div>
-                  <div style="float: left">{{artdata.createdAt}}</div>
+                  <div style="float: left">{{ artdata.createdAt }}</div>
                 </div>
-                <div style="float: left; overflow: hidden; margin-left: 12px" class="hoverclass-an">
+                <div
+                  style="float: left; overflow: hidden; margin-left: 12px"
+                  class="hoverclass-an"
+                >
                   <div style="float: left; margin-top: 2px; margin-right: 3px">
                     <n-icon size="14"
                       ><svg
@@ -92,7 +130,10 @@
                   </div>
                   <div style="float: left">更多/实用技巧</div>
                 </div>
-                <div style="float: left; overflow: hidden; margin-left: 12px" class="hoverclass-an">
+                <div
+                  style="float: left; overflow: hidden; margin-left: 12px"
+                  class="hoverclass-an"
+                >
                   <div style="float: left; margin-top: 2px; margin-right: 3px">
                     <n-icon size="14"
                       ><svg
@@ -109,40 +150,63 @@
                   <div style="float: left">JavaScript、css、实用技巧</div>
                 </div>
                 <n-divider />
-                <div class="hoverclass-an" style="padding:10px;background-color:#000000">
-               <md-editor v-model="artdata.arttext"  :theme="theme" previewOnly/>
+                <div
+                  class="hoverclass-an"
+                  style="padding: 10px; background-color: #000000; cursor: auto"
+                >
+                  <md-editor
+                    v-model="artdata.arttext"
+                    :theme="theme"
+                    previewOnly
+                  />
                 </div>
               </div>
             </div>
-                  </n-spin>
-              <div class="centerart">
-     <div style="overflow: hidden; font-size: 22px; color: #9b9baa">
+            <div class="centerart">
+              <div style="overflow: hidden; font-size: 22px; color: #9b9baa">
                 <div style="float: left; margin-top: 4px; margin-right: 3px">
                   <n-icon size="22"
-                    ><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M456 48H56a24 24 0 0 0-24 24v288a24 24 0 0 0 24 24h72v80l117.74-80H456a24 24 0 0 0 24-24V72a24 24 0 0 0-24-24zM160 248a32 32 0 1 1 32-32a32 32 0 0 1-32 32zm96 0a32 32 0 1 1 32-32a32 32 0 0 1-32 32zm96 0a32 32 0 1 1 32-32a32 32 0 0 1-32 32zM456 80z" fill="currentColor"></path></svg></n-icon>
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        d="M456 48H56a24 24 0 0 0-24 24v288a24 24 0 0 0 24 24h72v80l117.74-80H456a24 24 0 0 0 24-24V72a24 24 0 0 0-24-24zM160 248a32 32 0 1 1 32-32a32 32 0 0 1-32 32zm96 0a32 32 0 1 1 32-32a32 32 0 0 1-32 32zm96 0a32 32 0 1 1 32-32a32 32 0 0 1-32 32zM456 80z"
+                        fill="currentColor"
+                      ></path></svg
+                  ></n-icon>
                 </div>
-                <div style="float: left"><font style="color:#276d21;margin-left:5px">9</font>条评论</div>
-                 <n-divider />
-                 
+                <div style="float: left">
+                  <font style="color: #276d21; margin-left: 5px">9</font>条评论
+                </div>
+                <n-divider />
               </div>
             </div>
           </div>
         </n-grid-item>
-        <n-grid-item span="12 550:0 1100:3 1350:2">
-          <div class="green">
-          </div>
+        <n-grid-item span="0 550:0 1100:3 1350:2">
+          <div class="green"></div>
         </n-grid-item>
       </n-grid>
     </div>
   </div>
 </template>
 <style>
+.jiazaizhezhao {
+  position: fixed;
+  top: 0px;
+  height: 100%;
+  z-index: 1000000;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 .green {
   height: 800px;
 }
-.hoverclass{
+.hoverclass {
   cursor: pointer;
-  transition:all .3s
+  transition: all 0.3s;
 }
 .centerart {
   padding: 20px;
@@ -153,55 +217,40 @@
 }
 </style>
 <script>
-
 import axios from "axios";
-import { defineComponent } from "vue";
-import {
-  Home,
-  Book,
-  LogoVue,
-  LogoBuffer,
-  LogoPython,
-  AlertCircleSharp,
-  Apps,
-  Bug,
-  ChatboxEllipsesSharp,
-} from "@vicons/ionicons5";
-import MdEditor from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
-export default defineComponent({
-   components: { MdEditor },
+import MdEditor from "md-editor-v3";
+import "md-editor-v3/lib/style.css";
+export default {
+  components: { MdEditor },
   data() {
     return {
-        text:``,
-      theme: 'dark',
-      show:true,
-      artid:0,
-      artdata:[]
+      text: ``,
+      theme: "dark",
+      show: true,
+      artid: 0,
+      artdata: [],
     };
   },
-  setup() {
-    return {
-    };
+  methods: {
+    filtertime(value) {
+      return value.substring(0, 10);
+    },
+    getartdata() {
+      this.show = true;
+      axios
+        .get(
+          "/api/OptArtlists/GetOptArtlistsbyartid?artid=" +
+            this.artid
+        )
+        .then((res) => {
+          this.artdata = res.data.datalist;
+          this.show = false;
+        });
+    },
   },
-  methods:{
-       filtertime(value) {
-         return value.substring(0, 10);
-      },
-getartdata(){
-  this.show = true
-   axios
-          .post("/api/artlist/findOne", {artid:this.artid})
-          .then((res) => {
-            console.log(res.data.data);
-            this.artdata = res.data.data
-  this.show = false
-          });
-}
+  mounted() {
+    this.artid = this.$route.params.id;
+    this.getartdata();
   },
-mounted() {
- this.artid= this.$route.params.id
- this.getartdata()
-}
-});
+};
 </script>
